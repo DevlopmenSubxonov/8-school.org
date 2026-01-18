@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8-Maktab | Kelajak Akademiyasi & Smart Tizim</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+    <style>
+        /* 1. ASOSIY STILLAR (CSS VARIABLE LAR) */
+        :root {
+            --primary: #002366;
+            --secondary: #0056b3;
+            --accent: #ffcc00;
+            --light: #f8f9fa;
+            --dark: #121212;
+            --glass: rgba(255, 255, 255, 0.9);
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        /* 12. LIBRARY & MENU CARDS */
+.library-card {
+    background: #fff; border-radius: 15px; padding: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05); transition: var(--transition);
+    border: 1px solid #eee; text-align: center;
+}
+.library-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+.book-cover { width: 100px; height: 140px; background: var(--secondary); margin: 0 auto 15px; border-radius: 5px; color: white; display: flex; align-items: center; justify-content: center; font-size: 2rem; }
+
+/* 13. CANTEEN MENU STYLES */
+.canteen-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 15px; background: white; margin-bottom: 10px; border-radius: 10px;
+    border-left: 5px solid var(--accent);
+}
+.canteen-item:nth-child(even) { border-left-color: var(--primary); }
+
+/* 14. LEADERBOARD STYLES */
+.leaderboard-table {
+    background: white; border-radius: 20px; overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+}
+/* 21. DARK MODE & THEME TOGGLE */
+body.dark-theme {
+    background: #0f172a; color: #f1f5f9;
+}
+body.dark-theme .feature-card, 
+body.dark-theme .bg-white, 
+body.dark-theme .news-card {
+    background: #1e293b !important; color: white !important;
+}
+body.dark-theme .text-muted { color: #94a3b8 !important; }
+
+.theme-switch {
+    position: fixed; top: 100px; right: 30px; z-index: 1000;
+    cursor: pointer; background: var(--primary); color: white;
+    width: 50px; height: 50px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+}
+
+/* 22. MULTI-STEP ADMISSION FORM */
+.step-form-container {
+    background: white; border-radius: 30px; padding: 50px;
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.1);
+}
+.step-indicator {
+    display: flex; justify-content: space-between; margin-bottom: 40px;
+}
+.step {
+    width: 40px; height: 40px; border-radius: 50%; background: #e2e8f0;
+    display: flex; align-items: center; justify-content: center; font-weight: bold;
+}
+.step.active { background: var(--secondary); color: white; }
+
+/* 23. CLASS INSIGHT (Sinf statistikasi) */
+.insight-bar { height: 10px; border-radius: 5px; background: #e2e8f0; overflow: hidden; }
+.insight-progress { height: 100%; background: var(--accent); }
+.rank-gold { color: #ffd700; }
+.rank-silver { color: #c0c0c0; }
+.rank-bronze { color: #cd7f32; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: var(--light); color: var(--dark); line-height: 1.6; }
+
+        /* 2. CUSTOM SCROLLBAR */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 5px; }
+
+        /* 3. PRELOADER */
+        #preloader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #fff; z-index: 9999; display: flex; justify-content: center; align-items: center;
+        }
+        /* 17. VIDEO MODAL & NEWS CARD */
+.video-overlay-active {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.95); z-index: 10000;
+    display: none; justify-content: center; align-items: center;
+}
+/* 31. PERSONALITY AI & 3D CAMPUS */
+.ai-test-container {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    border-radius: 40px; padding: 50px; color: white; border: 1px solid var(--accent);
+}
+.personality-card {
+    background: rgba(255,255,255,0.05); border-radius: 20px; padding: 20px;
+    cursor: pointer; transition: 0.3s; border: 1px solid transparent;
+}
+.personality-card:hover { 
+    background: rgba(255, 204, 0, 0.1); border-color: var(--accent);
+    transform: translateY(-5px);
+}
+
+.campus-3d-box {
+    perspective: 1000px; height: 400px; display: flex; align-items: center; justify-content: center;
+}
+.school-model {
+    width: 200px; height: 100px; background: var(--primary);
+    transform: rotateX(45deg) rotateZ(45deg);
+    box-shadow: 20px 20px 50px rgba(0,0,0,0.5);
+    position: relative; transition: 0.5s;
+}
+.school-model:hover { transform: rotateX(45deg) rotateZ(45deg) translateZ(20px); }
+.school-model::before {
+    content: 'A-BINO'; position: absolute; width: 100%; height: 50px;
+    background: var(--secondary); transform: rotateX(-90deg); top: 100px;
+}
+/* 19. STUDENT DASHBOARD MODAL */
+.student-dashboard-modal {
+    display: none; position: fixed; z-index: 10001; left: 0; top: 0;
+    width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.8);
+    align-items: center; justify-content: center;
+}
+/* 29. RADAR CHART & RADIAL TIMETABLE */
+.radar-container {
+    background: white; border-radius: 30px; padding: 30px;
+    box-shadow: 0 15px 45px rgba(0,0,0,0.1);
+}
+.timetable-grid {
+    display: grid; grid-template-columns: 80px 1fr; gap: 10px;
+}
+.time-slot {
+    background: var(--primary); color: white; border-radius: 10px;
+    padding: 15px; font-weight: bold; text-align: center;
+}
+.subject-slot {
+    background: rgba(255, 204, 0, 0.1); border-left: 5px solid var(--accent);
+    padding: 15px; border-radius: 10px; transition: 0.3s;
+}
+.subject-slot:hover { transform: translateX(10px); background: rgba(255, 204, 0, 0.3); }
+
+/* 30. WALL OF FAME */
+.achievement-badge {
+    text-align: center; padding: 20px; transition: 0.5s;
+}
+.achievement-badge i {
+    font-size: 4rem; color: #ffd700; filter: drop-shadow(0 0 10px rgba(255,215,0,0.5));
+    animation: floating 3s ease-in-out infinite;
+}
+@keyframes floating {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+.dashboard-content {
+    background: white; margin: auto; padding: 40px; border-radius: 25px;
+    width: 90%; max-width: 1000px; box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    position: relative; animation: slideUp 0.5s ease-out;
+}
+.dashboard-close {
+    position: absolute; right: 25px; top: 20px; font-size: 3rem;
+    color: #aaa; cursor: pointer; transition: 0.3s;
+}
+.text-white{
+    background-color: black;
+    
+}
+.dashboard-close:hover { color: var(--primary); }
+
+@keyframes slideUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+.video-container-inner { width: 80%; max-width: 900px; position: relative; }
+.close-video {
+    position: absolute; top: -50px; right: 0; color: white;
+    font-size: 2rem; cursor: pointer;
+}
+
+.news-card {
+    background: white; border-radius: 20px; overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05); transition: 0.3s;
+    height: 100%;
+}
+.news-card:hover { transform: translateY(-10px); }
+.news-badge {
+    position: absolute; top: 20px; left: 20px;
+    background: var(--accent); color: var(--primary);
+    padding: 5px 15px; border-radius: 20px; font-weight: bold;
+}
+/* 28. NEURAL SEARCH & MATRIX GRID */
+.neural-overlay {
+    background: radial-gradient(circle at center, #002366 0%, #000 100%);
+    position: relative; overflow: hidden; border-radius: 30px; padding: 60px;
+}
+.matrix-bg {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    opacity: 0.1; pointer-events: none;
+}
+.search-glow {
+    box-shadow: 0 0 30px rgba(0, 86, 179, 0.5); border: 2px solid var(--accent);
+    background: rgba(255,255,255,0.1) !important; color: white !important;
+}
+.classroom-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+.class-node {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    padding: 20px; border-radius: 15px; transition: 0.3s;
+}
+.class-node:hover { background: var(--accent); color: var(--primary); transform: scale(1.05); }
+
+/* 18. TESTIMONIALS (Ota-onalar fikri) */
+.testimonial-item {
+    background: var(--primary); color: white; padding: 40px;
+    border-radius: 30px; position: relative; margin: 20px 0;
+}
+.testimonial-item::after {
+    content: "\f10d"; font-family: "Font Awesome 6 Free"; font-weight: 900;
+    position: absolute; top: 20px; right: 40px; font-size: 3rem; opacity: 0.2;
+}
+
+        /* 4. NAVIGATION */
+        .navbar {
+            padding: 15px 0; background: var(--glass) !important;
+            backdrop-filter: blur(15px); border-bottom: 2px solid var(--primary);
+            transition: var(--transition);
+        }
+        .navbar-brand b { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; color: var(--primary); }
+        .nav-link { font-weight: 600; color: var(--primary) !important; margin: 0 10px; position: relative; }
+        .nav-link::after {
+            content: ''; position: absolute; width: 0; height: 2px;
+            bottom: 0; left: 0; background: var(--accent); transition: var(--transition);
+        }
+        /* 15. TEST CENTER & VIDEO PORTAL */
+.test-card {
+    background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+    color: white; border-radius: 20px; padding: 30px;
+    position: relative; overflow: hidden;
+}
+.test-card::before {
+    content: '\f0ae'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
+    position: absolute; right: -20px; bottom: -20px; font-size: 8rem; opacity: 0.1;
+}
+
+.video-thumb {
+    position: relative; border-radius: 15px; overflow: hidden;
+}
+.video-thumb img { width: 100%; height: 200px; object-fit: cover; }
+.play-btn {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    background: rgba(255, 204, 0, 0.9); width: 60px; height: 60px;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    color: var(--primary); font-size: 1.5rem; transition: 0.3s;
+}
+.video-card:hover .play-btn { transform: translate(-50%, -50%) scale(1.2); background: white; }
+
+/* 16. INTERACTIVE MAP SECTION */
+.map-container {
+    height: 500px; background: #e5e7eb; border-radius: 30px;
+    display: flex; align-items: center; justify-content: center;
+    border: 8px solid white; box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+        .nav-link:hover::after { width: 100%; }
+
+        /* 5. HERO SECTION */
+        .hero {
+            height: 100vh; position: relative; overflow: hidden;
+            background: linear-gradient(45deg, rgba(0,35,102,0.8), rgba(0,86,179,0.5)),
+                        url('https://images.unsplash.com/photo-1541339907198-e08756ebafe3?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover; background-position: center;
+            display: flex; align-items: center; justify-content: center; text-align: center; color: white;
+        }
+        .hero-content h1 { font-size: 5rem; font-weight: 800; text-shadow: 2px 4px 10px rgba(0,0,0,0.3); }
+        .hero-btns .btn { padding: 15px 40px; border-radius: 50px; font-weight: bold; text-transform: uppercase; }
+
+        /* 6. CARDS & SECTIONS */
+        .section-padding { padding: 100px 0; }
+        .section-title { font-weight: 800; font-size: 2.5rem; margin-bottom: 50px; text-align: center; position: relative; }
+        .section-title::after {
+            content: ''; display: block; width: 80px; height: 5px; background: var(--accent); margin: 15px auto;
+        }
+
+        .feature-card {
+            background: white; padding: 40px; border-radius: 20px; transition: var(--transition);
+            border-bottom: 5px solid transparent; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .feature-card:hover { transform: translateY(-15px); border-color: var(--accent); }
+        .icon-circle {
+            width: 80px; height: 80px; background: var(--light); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--secondary); margin-bottom: 20px;
+        }
+
+        /* 7. TEACHERS GRID */
+        .teacher-box {
+            position: relative; border-radius: 20px; overflow: hidden; margin-bottom: 30px;
+        }
+        .teacher-box img { width: 100%; height: 400px; object-fit: cover; transition: var(--transition); }
+        .teacher-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,35,102,0.7); display: flex; flex-direction: column;
+            justify-content: center; align-items: center; color: white; opacity: 0; transition: var(--transition);
+        }
+        .teacher-box:hover .teacher-overlay { opacity: 1; }
+        .teacher-box:hover img { transform: scale(1.1); }
+
+        /* 8. AI ASSISTANT PANEL */
+        #ai-hub {
+            position: fixed; bottom: 30px; right: 30px; z-index: 1000;
+        }
+        .ai-btn {
+            width: 70px; height: 70px; background: var(--primary); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; color: white;
+            cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 4px solid white;
+        }
+        .ai-window {
+            width: 400px; height: 600px; background: white; position: absolute; bottom: 90px; right: 0;
+            border-radius: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.2); display: none; flex-direction: column;
+            overflow: hidden; border: 1px solid #ddd;
+        }
+        .chat-header { background: var(--primary); color: white; padding: 20px; font-weight: bold; }
+        .chat-body { flex: 1; padding: 20px; overflow-y: auto; background: #f4f7f6; }
+        .chat-footer { padding: 15px; background: white; display: flex; gap: 10px; }
+
+        /* 9. SCHEDULE TABS */
+        .nav-pills .nav-link { background: white; color: var(--primary); border: 1px solid var(--primary); margin: 5px; }
+        .nav-pills .nav-link.active { background: var(--primary) !important; color: white; }
+
+        /* 10. STATS COUNTER */
+        .stats-bg { background: var(--primary); color: white; padding: 80px 0; }
+        .stat-num { font-size: 3.5rem; font-weight: 800; color: var(--accent); }
+
+        /* 11. ANIMATIONS */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        /* 24. SMART ID CARD STYLES */
+.id-card-wrapper {
+    perspective: 1000px;
+}
+.id-card {
+    width: 350px; height: 500px; background: linear-gradient(135deg, #002366 0%, #0056b3 100%);
+    border-radius: 20px; padding: 30px; color: white; position: relative;
+    overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    border: 2px solid rgba(255,255,255,0.1); margin: 0 auto;
+}
+.id-card::before {
+    content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+}
+.id-photo {
+    width: 120px; height: 120px; border-radius: 50%; border: 5px solid var(--accent);
+    margin: 0 auto 20px; display: block; object-fit: cover;
+}
+.qr-container {
+    background: white; padding: 15px; border-radius: 15px; width: 150px;
+    height: 150px; margin: 20px auto; display: flex; align-items: center; justify-content: center;
+}
+.scan-line {
+    position: absolute; width: 100%; height: 2px; background: var(--accent);
+    top: 0; left: 0; box-shadow: 0 0 15px var(--accent);
+    animation: scan 3s linear infinite;
+}
+@keyframes scan {
+    0% { top: 0; }
+    100% { top: 100%; }
+}
+
+/* 25. CANTEEN PRE-ORDER STYLES */
+.food-card {
+    border-radius: 20px; overflow: hidden; border: none;
+    transition: 0.3s; background: white;
+}
+/* 27. 3D BOOK & CERTIFICATE VALIDATOR */
+.book-3d-wrapper {
+    perspective: 1000px; padding: 20px;
+}
+.book-3d {
+    width: 150px; height: 220px; position: relative;
+    transform-style: preserve-3d; transition: transform 0.5s;
+    cursor: pointer;
+}
+.book-3d:hover { transform: rotateY(-30deg) scale(1.1); }
+
+.book-front {
+    position: absolute; width: 100%; height: 100%;
+    background: var(--primary); color: white; border-radius: 5px 15px 15px 5px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 5px 5px 20px rgba(0,0,0,0.3); z-index: 2;
+}
+.book-spine {
+    position: absolute; width: 40px; height: 100%;
+    background: #001a4d; left: -20px; transform: rotateY(-90deg);
+}
+
+.validator-zone {
+    border: 3px dashed var(--accent); border-radius: 20px;
+    padding: 40px; text-align: center; background: rgba(255, 204, 0, 0.05);
+    transition: 0.3s;
+}
+.validator-zone:hover { background: rgba(255, 204, 0, 0.1); border-color: var(--primary); }
+.food-card:hover { transform: scale(1.05); }
+.food-price {
+    position: absolute; top: 15px; right: 15px; background: var(--accent);
+        .floating { animation: float 4s ease-in-out infinite; }
+
+        footer { background: var(--dark); color: white; padding: 80px 0 20px; }
+    </style>
+</head>
+<body>
+
+    <div id="preloader">
+        <div class="spinner-grow text-primary" role="status"></div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <img src="https://cdn-icons-png.flaticon.com/512/167/167707.png" width="50" class="me-3">
+                <b>8-MAKTAB <span class="text-secondary">SMART</span></b>
+            </a>
+            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navRes">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navRes">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#home">ASOSIY</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">BIZ HAQIMIZDA</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#teachers">USTOZLAR</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#schedule">JADVAL</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#gallery">GALEREYA</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">ALOQA</a></li>
+                    <li class="nav-item"><a class="btn btn-primary ms-lg-3 rounded-pill text-white px-4" href="#" onclick="openLogin()">KABINET</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="container hero-content" data-aos="zoom-out">
+            <h1 class="display-1">BILIM VA INNOVATSIYA</h1>
+            <p class="fs-4 mb-5 text-light">8-sonli umumta'lim maktabi — kelajak yetakchilarini tayyorlash maskani.</p>
+            <div class="hero-btns"> 
+                <a href="#about" class="btn btn-accent btn-lg me-3" style="background: var(--accent);">Boshlash</a>
+                <a href="#" class="btn btn-outline-light btn-lg">Virtual Sayohat</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding bg-white" id="about">
+        <div class="container text-center">
+            <h2 class="section-title" data-aos="fade-up">Nega Bizning Maktab?</h2>
+            <div class="row g-4 mt-5">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-card">
+                        <div class="icon-circle mx-auto"><i class="fas fa-microchip"></i></div>
+                        <h4>IT & AI Markazi</h4>
+                        <p>Dasturlash, robototexnika va sun'iy intellekt asoslarini maktabimizda o'rganing.</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-card">
+                        <div class="icon-circle mx-auto"><i class="fas fa-language"></i></div>
+                        <h4>Til O'rganish</h4>
+                        <p>Ingliz, Nemis va Rus tillarini professional o'qituvchilardan o'rganing.</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-card">
+                        <div class="icon-circle mx-auto"><i class="fas fa-trophy"></i></div>
+                        <h4>Sport Akademiyasi</h4>
+                        <p>Futbol, basketbol va shaxmat bo'yicha viloyat chempionlari bizning maktabda.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-bg">
+        <div class="container">
+            <div class="row text-center g-4">
+                <div class="col-md-3">
+                    <div class="stat-num counter" data-target="1500">0</div>
+                    <p class="fs-5">O'quvchilar</p>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-num counter" data-target="95">0</div>
+                    <p class="fs-5">Tajribali Ustozlar</p>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-num counter" data-target="120">0</div>
+                    <p class="fs-5">Yillik Tadbirlar</p>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-num counter" data-target="100">0</div>
+                    <p class="fs-5">Qoniqish Darajasi %</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="section-padding bg-white" id="schedule">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Dars Jadvali</h2>
+            <div class="row justify-content-center mt-5">
+                <div class="col-lg-10">
+                    <ul class="nav nav-pills mb-5 justify-content-center" id="pills-tab">
+                        <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#day1">DUSHANBA</button></li>
+                        <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#day2">SESHANBA</button></li>
+                        <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#day3">CHORSANBA</button></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="day1">
+                            <table class="table table-bordered shadow-sm bg-white">
+                                <thead class="table-dark"><tr><th>Soat</th><th>Sinf</th><th>Fan nomi</th><th>Xona</th></tr></thead>
+                                <tbody>
+                                    <tr><td>08:00 - 08:45</td><td>11-A</td><td>Algebra</td><td>302</td></tr>
+                                    <tr><td>08:55 - 09:40</td><td>11-A</td><td>Fizika</td><td>Lab-1</td></tr>
+                                    <tr><td>09:50 - 10:35</td><td>11-A</td><td>Ingliz Tili</td><td>204</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="ai-hub">
+        <div class="ai-window" id="aiWindow">
+            <div class="chat-header d-flex justify-content-between align-items-center">
+                <span><i class="fas fa-robot"></i> 8-Maktab AI Yordamchi</span>
+                <i class="fas fa-times cursor-pointer" onclick="toggleAI()"></i>
+            </div>
+            <div class="chat-body" id="chatBody">
+                <div class="bot-msg bg-white p-3 rounded shadow-sm mb-3">Salom! Men 8-maktabning AI yordamchisiman. Sizga qanday yordam bera olaman? Masalan: "Jadvalni ko'rsat" yoki "Manzil qayerda?" deb yozing.</div>
+            </div>
+            <div class="chat-footer">
+                <input type="text" id="aiInput" class="form-control" placeholder="Xabar yozing...">
+                <button class="btn btn-primary" onclick="handleAI()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+        <div class="ai-btn floating" onclick="toggleAI()">
+            <i class="fas fa-headset fa-2x"></i>
+        </div>
+    </div>
+
+    <section class="section-padding bg-light" id="contact">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <h2 class="fw-bold mb-4">Bizga Savollaringiz Bormi?</h2>
+                    <p class="mb-5">Maktabimiz ma'muriyati haftaning har kuni soat 08:00 dan 18:00 gacha murojaatlarni qabul qiladi.</p>
+                    <div class="d-flex mb-4">
+                        <i class="fas fa-map-marked-alt fa-2x text-primary me-4"></i>
+                        <div><h5>Manzil</h5><p>Samarqand viloyati, 8-sonli maktab binosi</p></div>
+                    </div>
+                    <div class="d-flex">
+                        <i class="fas fa-phone-alt fa-2x text-primary me-4"></i>
+                        <div><h5>Telefon</h5><p>+998 (90) 123-45-67</p></div>
+                    </div>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <form class="bg-white p-5 rounded-4 shadow">
+                        <div class="mb-3"><input type="text" class="form-control p-3" placeholder="Ismingiz"></div>
+                        <div class="mb-3"><input type="email" class="form-control p-3" placeholder="Emailingiz"></div>
+                        <div class="mb-3"><textarea class="form-control p-3" rows="5" placeholder="Xabaringiz"></textarea></div>
+                        <button class="btn btn-primary w-100 p-3 fw-bold shadow">YUBORISH</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+<section id="library" class="section-padding bg-light">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">Elektron Kutubxona</h2>
+        <div class="row g-4 mt-4">
+            <div class="col-lg-3 col-md-6" data-aos="zoom-in">
+                <div class="library-card">
+                    <div class="book-cover"><i class="fas fa-calculator"></i></div>
+                    <h5>Algebra 11</h5>
+                    <p class="text-muted">S.Mirzaev, 2023</p>
+                    <button class="btn btn-sm btn-outline-primary w-100" onclick="downloadBook('Algebra 11')">Yuklab olish</button>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="100">
+                <div class="library-card">
+                    <div class="book-cover bg-danger"><i class="fas fa-flask"></i></div>
+                    <h5>Kimyo 9</h5>
+                    <p class="text-muted">I.Asqarov, 2022</p>
+                    <button class="btn btn-sm btn-outline-primary w-100" onclick="downloadBook('Kimyo 9')">Yuklab olish</button>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="200">
+                <div class="library-card">
+                    <div class="book-cover bg-success"><i class="fas fa-language"></i></div>
+                    <h5>English B2</h5>
+                    <p class="text-muted">Oxford Press</p>
+                    <button class="btn btn-sm btn-outline-primary w-100" onclick="downloadBook('English B2')">Yuklab olish</button>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="300">
+                <div class="library-card">
+                    <div class="book-cover bg-warning"><i class="fas fa-history"></i></div>
+                    <h5>Tarix 10</h5>
+                    <p class="text-muted">A.Sagdullaev</p>
+                    <button class="btn btn-sm btn-outline-primary w-100" onclick="downloadBook('Tarix 10')">Yuklab olish</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-padding bg-white">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-6" data-aos="fade-right">
+                <h3 class="fw-bold mb-4"><i class="fas fa-utensils text-primary me-2"></i> Haftalik Taomnoma Tez orada ...</h3>
+                <div class="canteen-menu shadow-sm p-4 bg-light rounded-4">
+                    <div class="canteen-item"><span><b>Dushanba:</b> Mastava, Kotlet</span> <span class="badge bg-primary">3500 kcal</span></div>
+                    <div class="canteen-item"><span><b>Seshanba:</b> Osh (Palov), Salat</span> <span class="badge bg-primary">5000 kcal</span></div>
+                    <div class="canteen-item"><span><b>Chorshanba:</b> Sho'rva, Teftel</span> <span class="badge bg-primary">3200 kcal</span></div>
+                    <div class="canteen-item"><span><b>Payshanba:</b> Moshxo'rda, Somsa</span> <span class="badge bg-primary">4100 kcal</span></div>
+                    <div class="canteen-item"><span><b>Juma:</b> Norin, Mevalar</span> <span class="badge bg-primary">3800 kcal</span></div>
+                </div>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <h3 class="fw-bold mb-4"><i class="fas fa-star text-warning me-2"></i> Top O'quvchilar</h3>
+                <div class="leaderboard-table shadow-lg">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-dark">
+                            <tr><th>#</th><th>O'quvchi</th><th>Sinf</th><th>Ball</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><i class="fas fa-medal rank-gold"></i></td><td>Alimov Jasur</td><td>11-A</td><td>2950</td></tr>
+                            <tr><td><i class="fas fa-medal rank-silver"></i></td><td>Olimova Malika</td><td>10-B</td><td>2840</td></tr>
+                            <tr><td><i class="fas fa-medal rank-bronze"></i></td><td>Shokirov Aziz</td><td>9-C</td><td>2710</td></tr>
+                            <tr><td>4</td><td>Karimov Bekzod</td><td>11-B</td><td>2650</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+
+<section class="section-padding bg-white">
+    <div class="container">
+        <div class="row g-5 align-items-center">
+            <div class="col-lg-6" data-aos="fade-right">
+                <div class="test-card">
+                    <h2 class="fw-bold mb-3">Bilimingni sinab ko'r!</h2>
+                    <p>Haftalik onlayn testlarda qatnashing va yuqori reytingni qo'lga kiriting. G'oliblar maktab stipendiyasi bilan taqdirlanadi.</p>
+                    <button class="btn btn-warning btn-lg rounded-pill mt-3 fw-bold" onclick="startTest()">Testni boshlash</button>
+                </div>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <h3 class="fw-bold mb-4">Maktabning 3D Xaritasi</h3>
+                <div class="map-container text-center p-4">
+                    <div class="map-placeholder">
+                        <i class="fas fa-map-marked-alt fa-5x text-primary mb-3"></i>
+                        <h4>Interaktiv xarita yuklanmoqda...</h4>
+                        <p class="text-muted">Bino A, Bino B va Sport majmuasini ko'rish uchun tanlang.</p>
+                        <div class="btn-group mt-3">
+                            <button class="btn btn-outline-primary" onclick="showBuilding('A')">A-Bino</button>
+                            <button class="btn btn-outline-primary" onclick="showBuilding('B')">B-Bino</button>
+                            <button class="btn btn-outline-primary" onclick="showBuilding('Sport')">Sport</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</section>
+<div class="video-overlay-active" id="videoOverlay">
+    <div class="video-container-inner">
+        <span class="close-video" onclick="closeVideo()">&times;</span>
+        <div class="ratio ratio-16x9">
+            <iframe id="mainVideo" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
+
+<section id="news" class="section-padding bg-light">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">So'nggi Yangiliklar</h2>
+        <div class="row g-4 mt-4">
+            <div class="col-lg-4" data-aos="fade-up">
+                <div class="news-card position-relative">
+                    <span class="news-badge">Tadbir</span>
+                    <img src="615529924_4367000546957706_1508184530016964079_n.jpg" class="w-100 h-200" style="object-fit:cover;">
+                    <div class="p-4">
+                        <small class="text-muted">12-Yanvar, 2025</small>
+                        <h5 class="mt-2 fw-bold">"2-chorakning birinchi kuni"</h5>
+                        <p>Maktabimiz o'quvchilari bilan madhiya jarayoni</p>
+                        <a href="#" class="btn btn-link p-0 fw-bold">Batafsil</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="news-card position-relative">
+                    <span class="news-badge">Sport</span>
+                    <img src="505570687_4149333402057756_3391475817929592457_n.jpg" class="w-100 h-200" style="object-fit:cover;">
+                    <div class="p-4">
+                        <small class="text-muted">12-Yanvar, 2024</small>
+                        <h5 class="mt-2 fw-bold">Futbol jamoamiz g'alabasi</h5>
+                        <p>Viloyat bosqichida 8-maktab jamoasi 1-o'rinni egallab, finalga yo'llanma oldi.</p>
+                        <a href="#" class="btn btn-link p-0 fw-bold">Batafsil</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="news-card position-relative">
+                    <span class="news-badge">IT</span>
+                    <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80" class="w-100 h-200" style="object-fit:cover;">
+                    <div class="p-4">
+                        <small class="text-muted">10-Yanvar, 2024</small>
+                        <h5 class="mt-2 fw-bold">Yangi IT laboratoriyasi ochildi</h5>
+                        <p>Endi o'quvchilar eng so'nggi rusumdagi kompyuterlarda dars o'tishadi.</p>
+                        <a href="#" class="btn btn-link p-0 fw-bold">Batafsil</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-padding bg-white">
+    <div class="container text-center">
+        <h2 class="section-title" data-aos="fade-up">Ota-onalar nima deydi?</h2>
+        <div class="row justify-content-center">
+            <div class="col-lg-8" data-aos="zoom-in">
+                <div class="testimonial-item shadow-lg">
+                    <p class="fs-4 italic">"Maktabdagi tartib-intizom va ustozlarning o'z ishiga mas'uliyati meni hayron qoldirdi. O'g'limning bilimi sezilarli darajada oshdi!"</p>
+                    <h5 class="mt-4 fw-bold">— Farhod Abdullaev</h5>
+                    <small class="text-warning">Tadbirkor</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div id="studentDashboard" class="student-dashboard-modal">
+    <div class="dashboard-content">
+        <span class="dashboard-close" onclick="closeDashboard()">&times;</span>
+        <h2 class="section-title text-start mb-5" data-aos="fade-up">O'quvchi Paneli <span class="text-primary" id="studentNameDisplay"></span></h2>
+        
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <h4 class="mb-4">Baholarim</h4>
+                <div class="grade-chart-container">
+                    <canvas id="gradeChart"></canvas>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <h4 class="mb-4">Mening Yutuqlarim</h4>
+                <div class="badge-item shadow-sm" data-aos="fade-left">
+                    <div class="badge-icon"><i class="fas fa-award"></i></div>
+                    <div>
+                        <h5 class="mb-0">Yil O'quvchisi (2023)</h5>
+                        <small class="text-muted">Eng yuqori akademik ko'rsatkich</small>
+                    </div>
+                </div>
+                <div class="badge-item shadow-sm" data-aos="fade-left" data-aos-delay="100">
+                    <div class="badge-icon"><i class="fas fa-robot"></i></div>
+                    <div>
+                        <h5 class="mb-0">Robototexnika Chempioni</h5>
+                        <small class="text-muted">Maktablararo tanlov g'olibi</small>
+                    </div>
+                </div>
+                <h4 class="mt-5 mb-4">Ma'muriyatga murojaat</h4>
+                <form class="bg-light p-4 rounded-3 shadow-sm" onsubmit="event.preventDefault(); sendTicket()">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" placeholder="Murojaat sarlavhasi">
+                    </div>
+                    <div class="mb-3">
+                        <textarea class="form-control" rows="3" placeholder="Izohingiz"></textarea>
+                    </div>
+                    <button class="btn btn-primary w-100">Yuborish</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section id="documents" class="section-padding bg-light">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">Hujjatlar Markazi</h2>
+        <div class="row g-4 mt-4">
+            <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                <div class="doc-item shadow-sm">
+                    <i class="fas fa-file-alt"></i>
+                    <div>
+                        <h5 class="mb-0">Maktab Ustavi</h5>
+                        <small class="text-muted">Maktabning ichki nizomlari</small>
+                    </div>
+                    <a href="#" class="btn btn-sm btn-outline-primary ms-auto" onclick="downloadDoc('Maktab Ustavi')">Yuklab olish</a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="doc-item shadow-sm">
+                    <i class="fas fa-book-open"></i>
+                    <div>
+                        <h5 class="mb-0">Darsliklar Ro'yxati</h5>
+                        <small class="text-muted">Barcha sinflar uchun darsliklar</small>
+                    </div>
+                    <a href="#" class="btn btn-sm btn-outline-primary ms-auto" onclick="downloadDoc('Darsliklar Ro\'yxati')">Yuklab olish</a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="doc-item shadow-sm">
+                    <i class="fas fa-scroll"></i>
+                    <div>
+                        <h5 class="mb-0">Yillik Hisobot (2023)</h5>
+                        <small class="text-muted">Maktab faoliyati haqida</small>
+                    </div>
+                    <a href="#" class="btn btn-sm btn-outline-primary ms-auto" onclick="downloadDoc('Yillik Hisobot')">Yuklab olish</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="events" class="section-padding bg-white">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">Maktab Tadbirlari</h2>
+        <div class="row g-4 mt-4">
+            <div class="col-md-6" data-aos="fade-right">
+                <div class="calendar-event shadow-sm">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-calendar-alt fa-2x text-warning me-3"></i>
+                        <h5>15-Fevral: Bahor Navro'zi</h5>
+                    </div>
+                    <p class="text-muted mb-0">Maktabimiz bog'ida an'anaviy Navro'z bayrami o'tkaziladi. Barcha o'quvchilar va ota-onalar taklif etiladi!</p>
+                </div>
+            </div>
+            <div class="col-md-6" data-aos="fade-left">
+                <div class="calendar-event shadow-sm">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-trophy fa-2x text-warning me-3"></i>
+                        <h5>22-Mart: Yosh Dasturchilar Musobaqasi</h5>
+                    </div>
+                    <p class="text-muted mb-0">IT markazimizda maktablararo dasturlash musobaqasi bo'lib o'tadi. Qiziqqanlar ro'yxatdan o'tishi mumkin.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="theme-switch shadow-lg" onclick="toggleTheme()">
+    <i class="fas fa-moon" id="themeIcon"></i>
+</div>
+
+<section id="admission" class="section-padding bg-light">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">Onlayn Qabul — 2024</h2>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="step-form-container" data-aos="zoom-in">
+                    <div class="step-indicator">
+                        <div class="step active">1</div>
+                        <div class="step">2</div>
+                        <div class="step">3</div>
+                    </div>
+                    <form id="admissionForm">
+                        <div class="step-content active" id="step1">
+                            <h4 class="mb-4">Shaxsiy Ma'lumotlar</h4>
+                            <div class="row g-3">
+                                <div class="col-md-6"><input type="text" class="form-control" placeholder="O'quvchi ismi"></div>
+                                <div class="col-md-6"><input type="text" class="form-control" placeholder="Familiyasi"></div>
+                                <div class="col-md-12"><input type="date" class="form-control" placeholder="Tug'ilgan yili"></div>
+                                <button type="button" class="btn btn-primary mt-4" onclick="nextStep(2)">Keyingi qadam</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-padding bg-dark text-white">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-5" data-aos="fade-right">
+                <h2 class="fw-bold mb-4">Siz Yolg'iz Emassiz!</h2>
+                <p>Maktab psixologiga anonim murojaat yo'llang yoki ruhiy testlardan o'ting. Biz sizni tinglashga tayyormiz.</p>
+                <div class="mt-4">
+                    <button class="btn btn-outline-warning btn-lg px-4 me-3">Anonim Chat</button>
+                    <button class="btn btn-warning btn-lg px-4">Testlar</button>
+                </div>
+            </div>
+            <div class="col-lg-7" data-aos="fade-left">
+                <div class="bg-white text-dark p-4 rounded-4 shadow">
+                    <h5 class="fw-bold mb-4">Bugungi Maslahat:</h5>
+                    <blockquote class="blockquote">
+                        <p>"Muvaffaqiyat bu — har kungi kichik intilishlar yig'indisidir."</p>
+                    </blockquote>
+                    <hr>
+                    <div class="d-flex align-items-center">
+                        <img src="https://images.unsplash.com/photo-1559839734-2b71f1536783?auto=format&fit=crop&w=100&q=80" class="rounded-circle me-3" width="60">
+                        <div>
+                            <h6 class="mb-0">Dilorom Ismoilova</h6>
+                            <small class="text-muted">Maktab bosh psixologi</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="smart-id" class="section-padding bg-dark">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6 text-white" data-aos="fade-right">
+                <h2 class="display-5 fw-bold mb-4">Smart Digital ID</h2>
+                <p class="fs-5 opacity-75">Maktabimizning har bir o'quvchisi uchun noyob raqamli identifikator. QR-kod orqali davomat, oshxona va kutubxonadan foydalanish imkoniyati.</p>
+                <ul class="list-unstyled mt-4">
+                    <li class="mb-3"><i class="fas fa-check-circle text-accent me-2"></i> Avtomatik davomat tizimi</li>
+                    <li class="mb-3"><i class="fas fa-check-circle text-accent me-2"></i> Naqdsiz to'lov (E-Wallet)</li>
+                    <li class="mb-3"><i class="fas fa-check-circle text-accent me-2"></i> Ota-onalar uchun real-vaqt nazorati</li>
+                </ul>
+                <button class="btn btn-accent btn-lg mt-4 px-5 rounded-pill" onclick="generateMyID()">Mening ID kartam</button>
+            </div>
+            <div class="col-lg-6" data-aos="flip-right">
+                <div class="id-card-wrapper">
+                    <div class="id-card text-center">
+                        <div class="scan-line"></div>
+                        <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=300&q=80" class="id-photo">
+                        <h4 class="mb-1">Jasur Alimov</h4>
+                        <p class="text-accent mb-0">ID: 8-001-2024</p>
+                        <div class="qr-container">
+                            <img id="qrImage" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=JasurAlimov-8-001" alt="QR ID">
+                        </div>
+                        <p class="small opacity-50">8-Maktab Digital Passport</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section id="validator" class="section-padding bg-light">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">Sertifikatni Tasdiqlash</h2>
+        <div class="row justify-content-center">
+            <div class="col-lg-8" data-aos="zoom-in">
+                <div class="validator-zone shadow-sm">
+                    <i class="fas fa-qrcode fa-4x text-primary mb-4"></i>
+                    <h4>Sertifikat ID raqamini kiriting</h4>
+                    <p class="text-muted">Maktabimiz tomonidan berilgan har qanday hujjatni bazadan tekshirib ko'ring.</p>
+                    <div class="input-group mb-3 w-75 mx-auto">
+                        <input type="text" id="certID" class="form-control" placeholder="Masalan: CERT-8-2024-001">
+                        <button class="btn btn-primary" onclick="validateCert()">TEKSHIRISH</button>
+                    </div>
+                    <div id="certResult" class="mt-4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-padding bg-white">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">Eng Mashhur Kitoblar</h2>
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-3" data-aos="flip-left">
+                <div class="book-3d-wrapper">
+                    <div class="book-3d">
+                        <div class="book-front"><b>Fizika</b></div>
+                        <div class="book-spine"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3" data-aos="flip-left" data-aos-delay="100">
+                <div class="book-3d-wrapper">
+                    <div class="book-3d">
+                        <div class="book-front" style="background: #c0392b;"><b>Tarix</b></div>
+                        <div class="book-spine"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3" data-aos="flip-left" data-aos-delay="200">
+                <div class="book-3d-wrapper">
+                    <div class="book-3d">
+                        <div class="book-front" style="background: #27ae60;"><b>Biologiya</b></div>
+                        <div class="book-spine"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="ai-search" class="section-padding bg-dark">
+    <div class="container">
+        <div class="neural-overlay shadow-2xl" data-aos="zoom-in">
+            <div class="matrix-bg" id="matrixCanvas"></div>
+            <div class="text-center position-relative" style="z-index: 2;">
+                <h2 class="text-white mb-4">Neural Qidiruv Tizimi</h2>
+                <p class="text-accent mb-5">Maktab bazasidagi istalgan ma'lumotni AI yordamida soniyalarda toping</p>
+                <div class="input-group input-group-lg w-75 mx-auto mb-4">
+                    <input type="text" id="neuralInput" class="form-control search-glow" placeholder="Masalan: '9-sinf dars jadvali' yoki 'Robototexnika to'garagi'...">
+                    <button class="btn btn-accent px-5" onclick="neuralSearch()">IZLASH</button>
+                </div>
+                <div id="neuralResults" class="classroom-grid mt-5">
+                    </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-padding bg-light">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">Jonli Sinfxonalar Holati</h2>
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6" data-aos="fade-up">
+                <div class="feature-card text-center border-top border-5 border-success">
+                    <h3 class="fw-bold">11-A</h3>
+                    <p class="text-muted">Mavzu: Kvant Fizikasi</p>
+                    <span class="badge bg-success">DARS KETMOQDA</span>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="feature-card text-center border-top border-5 border-warning">
+                    <h3 class="fw-bold">10-B</h3>
+                    <p class="text-muted">Mavzu: Algoritmlar</p>
+                    <span class="badge bg-warning">TANAFFUS</span>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="feature-card text-center border-top border-5 border-primary">
+                    <h3 class="fw-bold">IT LAB</h3>
+                    <p class="text-muted">Mavzu: AI Darslari</p>
+                    <span class="badge bg-primary">AMALIYOT</span>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="feature-card text-center border-top border-5 border-danger">
+                    <h3 class="fw-bold">SPORT ZAL</h3>
+                    <p class="text-muted">Mashg'ulot: Basketbol</p>
+                    <span class="badge bg-danger">BAND</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="parent-portal" class="section-padding bg-light">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">Ota-onalar Nazorat Paneli</h2>
+        <div class="row g-5 align-items-center">
+            <div class="col-lg-6" data-aos="fade-right">
+                <div class="radar-container">
+                    <h5 class="text-center mb-4">O'quvchi Bilim Ko'nikmalari</h5>
+                    <canvas id="radarChart"></canvas>
+                </div>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <h3 class="fw-bold">Interaktiv Dars Jadvali</h3>
+                <div class="timetable-grid mt-4">
+                    <div class="time-slot">08:30</div>
+                    <div class="subject-slot"><h5>Matematika (101-xona)</h5><p class="mb-0">Ustoz: S. Rahmonov</p></div>
+                    
+                    <div class="time-slot">09:20</div>
+                    <div class="subject-slot"><h5>Informatika (IT Lab)</h5><p class="mb-0">Ustoz: J. Toshpo'latov</p></div>
+                    
+                    <div class="time-slot">10:10</div>
+                    <div class="subject-slot"><h5>Ingliz tili (305-xona)</h5><p class="mb-0">Ustoz: M. Karimova</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-padding bg-dark text-white overflow-hidden">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">Maktabimiz G'alabalari</h2>
+        <div class="row">
+            <div class="col-md-4" data-aos="zoom-in">
+                <div class="achievement-badge">
+                    <i class="fas fa-trophy"></i>
+                    <h4 class="mt-3">Viloyat Chempioni</h4>
+                    <p class="opacity-75">Futbol bo'yicha 2023-yil g'olibi</p>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
+                <div class="achievement-badge">
+                    <i class="fas fa-medal"></i>
+                    <h4 class="mt-3">Oltin Maktab</h4>
+                    <p class="opacity-75">Sifatli ta'lim bo'yicha reytingda #1</p>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="400">
+                <div class="achievement-badge">
+                    <i class="fas fa-award"></i>
+                    <h4 class="mt-3">Innovatsion Maktab</h4>
+                    <p class="opacity-75">IT-texnologiyalar joriy etilgani uchun</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <footer>
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <h3>8-Maktab Digital</h3>
+                    <p class="mt-4">Bizning maktab — bu nafaqat bino, balki katta bir oila va kelajak poydevoridir.</p>
+                </div>
+                <div class="col-lg-2 ms-auto">
+                    <h5>Sahifalar</h5>
+                    <ul class="list-unstyled mt-4">
+                        <li><a href="#home" class="text-white-50">Asosiy</a></li>
+                        <li><a href="#about" class="text-white-50">Biz haqimizda</a></li>
+                        <li><a href="#schedule" class="text-white-50">Jadval</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h5>Ijtimoiy tarmoqlar</h5>
+                    <div class="d-flex gap-3 mt-4">
+                        <a href="https://t.me/w_maktab_8" class="text-white fs-4"><i class="fab fa-telegram"></i></a>
+                        <a href="https://www.facebook.com/groups/605524306811914/" class="text-white fs-4"><i class="fab fa-facebook"></i></a>
+                        <a href="https://www.youtube.com/@toyloqtuman8-maktab" class="text-white fs-4"><i class="fab fa-youtube"></i></a>
+                    </div>
+                    
+                </div>
+            </div>
+            <hr class="mt-5 border-secondary">
+            <p class="text-center text-white-50 mt-4">© 2024 Barcha huquqlar himoyalangan. 8-Maktab Digital System.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        // AOS Animatsiya Init
+        AOS.init({ duration: 1000, once: false });
+
+        // Preloader
+        window.onload = () => {
+            document.getElementById('preloader').style.display = 'none';
+            counterInit();
+        };
+
+        // Stats Counter Logic
+        function counterInit() {
+            const counters = document.querySelectorAll('.counter');
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const updateCount = () => {
+                    const count = +counter.innerText;
+                    const speed = target / 100;
+                    if (count < target) {
+                        counter.innerText = Math.ceil(count + speed);
+                        setTimeout(updateCount, 20);
+                    } else { counter.innerText = target; }
+                };
+                updateCount();
+            });
+        }
+
+        // AI Assistant Toggle
+        function toggleAI() {
+            const win = document.getElementById('aiWindow');
+            win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        // AI Chat Logic (Frontend Simulation)
+        function handleAI() {
+            const input = document.getElementById('aiInput');
+            const body = document.getElementById('chatBody');
+            if(!input.value) return;
+
+            body.innerHTML += `<div class="user-msg text-end mb-3"><span class="bg-primary text-white p-2 rounded shadow-sm d-inline-block">${input.value}</span></div>`;
+            
+            let response = "Bu ma'lumotni tushunmadim. Maktab ma'muriyatiga (+998901234567) qo'ng'iroq qiling.";
+            const v = input.value.toLowerCase();
+            if(v.includes("salom")) response = "Assalomu alaykum! Maktabimiz haqida nimalarni bilmoqchisiz?";
+            if(v.includes("jadval")) response = "Jadval bo'limiga o'ting yoki bu yerni bosing: [Dars Jadvali]";
+            if(v.includes("direktor")) response = "Maktab direktori: O.X. Nabiyev. Qabul kunlari: Dushanba 09:00-12:00";
+            if(v.includes("manzil")) response = "Bizning manzil: 8-kvartal, Markaziy ko'cha. Xaritadan ko'rishni istaysizmi?";
+
+            setTimeout(() => {
+                body.innerHTML += `<div class="bot-msg bg-white p-3 rounded shadow-sm mb-3 border-start border-primary border-4">${response}</div>`;
+                body.scrollTop = body.scrollHeight;
+            }, 800);
+            input.value = "";
+        }
+
+        // Login System
+        function openLogin() {
+            Swal.fire({
+                title: 'Elektron Kundalik',
+                html: `<input type="text" id="swal-input1" class="swal2-input" placeholder="ID (8-001)">
+                       <input type="password" id="swal-input2" class="swal2-input" placeholder="Parol">`,
+                focusConfirm: false,
+                confirmButtonText: 'KIRISH',
+                preConfirm: () => {
+                    const id = Swal.getPopup().querySelector('#swal-input1').value;
+                    if(id === "8-001") {
+                        Swal.fire('Xush kelibsiz!', 'O\'quvchi: Jasur Alimov. Sinf: 11-A', 'success');
+                    } else {
+                        Swal.fire('Xato', 'ID topilmadi!', 'error');
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
